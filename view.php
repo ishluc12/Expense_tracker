@@ -3,27 +3,25 @@ include 'connect.php ';
 ?>
 <table>
 <tr>
-th>ID</th>
-<th>Names</th>
-<th>Email</th>
-<th>Phone</th>
+<th>Category</th>
+<th>Amount</th>
+<th>Date</th>
 <th>Action</th>
-
 </tr>
 <?php
-$sql='SELECT * FROM students';
+$sql='SELECT * FROM spend';
 $data=mysqli_query($conn, $sql);
 $result=mysqli_num_rows($data);
 if($result>0){
     while($row=mysqli_fetch_array($data)){
         ?>
         <tr>
-            <td><?php echo $row ['stud_id'];?></td>
-            <td><?php echo $row ['name'];?></td>
-            <td><?php echo $row ['email'];?></td>
-            <td><?php echo $row ['phone'];?></td>
-            <td><a href="connect.php?=id<?php echo $row['id'];?>">Update</a></td>
-            <td><a href="connect.php?=id<?php echo $row['id'];?>">Delete</a></td>
+           
+            <td><?php echo $row ['category'];?></td>
+            <td><?php echo $row ['amount'];?></td>
+            <td><?php echo $row ['date'];?></td>
+            <td><a href="update.php?=id<?php echo $row['id'];?>">Update</a></td>
+            <td><a href="erase.php?=id<?php echo $row['id'];?>">Delete</a></td>
             <td><a href="product.php?=id<?php echo $row['id'];?>">Product</a></td>
             
         </tr>

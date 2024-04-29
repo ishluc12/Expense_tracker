@@ -246,3 +246,58 @@ footer{
 }
 
 }
+
+
+/* product form */
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: 10%;
+}
+h1{
+    text-align: center;
+}
+
+.input-section {
+    width: 420px;
+    border: 2px solid rgb(6, 45, 163);
+    padding: 40px;
+    background: linear-gradient(45deg, rgba(5, 191, 238, 0.7), rgba(14, 85, 126, 0.7), rgba(97, 177, 212, 0.7), rgba(128, 125, 201, 0.7), rgba(0,127,255,0.7), rgba(75,0,130,0.7), rgba(148,0,211,0.7));
+    background-size: 400% 400%;
+    animation: rainbow 10s ease infinite;
+    color: #fff;
+    border-radius: 10px;
+}
+
+@keyframes rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+.selection-list {
+    margin-bottom: 20px;
+}
+
+/* 
+home page */
+
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #3b7ddd;
+}
+.nav .li{
+    list-style: none;
+}
+
+
+.text-primary{
+    color: white;
+}

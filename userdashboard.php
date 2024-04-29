@@ -1,21 +1,14 @@
 
 <?php
-session_start();
 include("connect.php");
-if(strlen($_SESSION['sid']) == 0){
-    header("index.php");
-}
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin dashboard</title>
+    <title>User dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -47,36 +40,36 @@ if(strlen($_SESSION['sid']) == 0){
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" 
+                <a href="view.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" 
                   data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
                      <i class="fas fa-shield-alt"></i>
-                      <span>Auth</span>
+                      <span>LOGIN/REGISTER</span>
                   </a>
                 <ul class="sidebardropdown list-unstyled collapse" data-bs-parent="#sidebar" id="auth">
                     <li class="sidebar-items">
-                    <a href="#" class="sidebar-link">Login</a>
+                    <a href="home.php" class="sidebar-link">Login</a>
                     </li>
                     <li class="sidebar-items">
-                     <a href="#" class="sidebar-link">Register</a>
+                     <a href="register.php" class="sidebar-link">Register</a>
                      </li>
                 </ul>
             </li>
             
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" 
-                  data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
-                     <i class="fas fa-shield-alt"></i>
-                      <span>settings</span>
-                  </a>
-                <ul class="sidebardropdown list-unstyled collapse" data-bs-parent="#sidebar" id="auth">
-                    <li class="sidebar-items">
-                    <a href="backup.php" class="sidebar-link">Login</a>
-                    </li>
-                </ul>
+                <a href="total.php" class="sidebar-link">
+                <i class="fas fa-bell notification-icon"></i>
+                <span>Notification</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+                </a>
             </li>
         </ul>
         <div class="sidebar-footer">
-            <a href="adminlogin.php" class="sidebar-link">
+            <a href="home.php" class="sidebar-link">
             <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>
@@ -84,57 +77,19 @@ if(strlen($_SESSION['sid']) == 0){
         </aside>
         <div class="main">
             <nav class="navbar navbar-expand px-4 py-3">
-                    ...
-        <form action="#" method="GET" class="d-none d-sm-inline-block">
-            <div class="input-group input-group-navbar">
-                <input type="text" name="search" class="form-control border-0 rounded-0" placeholder="Search...">
-                <button class="btn border-0 round-0" type="submit">Search</button>
-            </div>
-            </form>
-            ...
-
-            <?php
-                
-                if(isset($_GET['search'])) {
-                    
-                    $search = $_GET['search'];
-
-                    $sql = "SELECT * FROM students WHERE name LIKE '%$search%' OR email LIKE '%$search%' OR phone LIKE '%$search%' OR salary LIKE '%$search%'";
-                    $result = $conn->query($sql);
-
-                    
-                    if ($result->num_rows > 0) {
-                      
-                        while($row = $result->fetch_assoc()) {
-                           
-                        }
-                    } else {
-                        
-                        echo 'No records found';
-                    }
-                }
-            ?>
-
+                <form action="#" class="d-none d-sm-inline-block">
+                    <div class="input-group input-group-navbar">
+                        <input type="text" class="form-control border-0 rounded-0" placeholder="search..">
+                        <button class="btn border-0 round-0" type="button">search</button>
+                    </div>
+                </form>
 
                <div class="navbar-collapse collapse">
-                <?php
-                $id=$_SESSION['sid'];
-                $sel=mysqli_query($conn,"SELECT * FROM admin WHERE id='$id'");
-                while($row=mysqli_fetch_array($sel)){   
-                ?>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                    <a href="#" class="nav-icon pe-md-0" data-bs-toggle="dropdown">
+                        <a href="#" class="nav-icon pe-md-0" data-bs-toggle="dropdown">
                             <img src="images.png" class="avatar img-fluid" alt="user">
                         </a>
-                       
-                            <br>
-                            <h1> <?php echo $row['username'] ?> </h1>
-
-                 <?php
-                }
-                ?>
-               
                         <div class="dropdown-menu dropdown-menu-end rounded">
                             <a href="#" class="dropdown-item">
                             <i class="fas fa-clock"></i>
@@ -159,44 +114,14 @@ if(strlen($_SESSION['sid']) == 0){
             <main class="content px-3 py-4">
     <div class="container-fluid">
         <div class="mb-3">
-            <h3 class="fw-bold fs-4 mb-3">Admin dashboard</h3>
+            <h3 class="fw-bold fs-4 mb-3">User dashboard</h3>
             <div class="row">
                 <div class="col-12 col-md-4">
                     <div class="card border-0">
                         <div class="card-body py-4">
                             <h5 class="mb-2 fw-bold">
-                                Members 
+                                total
                             </h5>
-                            <p class="mb-2 fw-bold">
-                            <?php
-                $students = "students";
-                $sql = "SELECT COUNT(*) as total FROM $students";
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-                    $totalRecord = $row['total'];
-                    echo '<h3>Total Participants: ' . $totalRecord . '</h3>';
-                } 
-            ?>
-                            </p>
-                        </div>
-                        <div class="mb-0">
-                            <span class="badge text-success me-2">
-                                +9.05%
-                            </span>
-                            <span class="fw-bold">
-                                since last month
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card border-0">
-                        <div class="card-body py-4">
-                            <h5 class="mb-2 fw-bold">
-                                Total salary
-                             </h5>
                             <p class="mb-2 fw-bold">
                                 $72,50
                             </p>
@@ -215,7 +140,27 @@ if(strlen($_SESSION['sid']) == 0){
                     <div class="card border-0">
                         <div class="card-body py-4">
                             <h5 class="mb-2 fw-bold">
-                                Members progress
+                                Amount spent
+                            </h5>
+                            <p class="mb-2 fw-bold">
+                                $72,50
+                            </p>
+                        </div>
+                        <div class="mb-0">
+                            <span class="badge text-success me-2">
+                                +9.05%
+                            </span>
+                            <span class="fw-bold">
+                                since last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card border-0">
+                        <div class="card-body py-4">
+                            <h5 class="mb-2 fw-bold">
+                               Remaining
                             </h5>
                             <p class="mb-2 fw-bold">
                                 $72,50
@@ -236,34 +181,33 @@ if(strlen($_SESSION['sid']) == 0){
             <div class="row">
                 <div class="col-12">
                 <?php
-                       
+                        include 'connect.php ';
                         ?>
                         <table class="table table striped" cellpadding="10px" cellspacing="0">
                         <tr>
-                            <th>ID</th>
-                        <th>Names</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>salary</th>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>AMount</th>
+                        <th>Date</th>
                         <th>Action</th>
-
 
                         </tr>
                         <?php
-                        $sql='SELECT * FROM students';
+                        $sql='SELECT * FROM spend';
                         $data=mysqli_query($conn, $sql);
                         $result=mysqli_num_rows($data);
                         if($result>0){
                             while($row=mysqli_fetch_array($data)){
                                 ?>
                                 <tr>
-                                <td><?php echo $row ['stud_id'];?></td>
-                                    <td><?php echo $row ['name'];?></td>
-                                    <td><?php echo $row ['email'];?></td>
-                                    <td><?php echo $row ['phone'];?></td>
-                                    <td><?php echo $row ['salary'];?></td>
-                                    <td><a class="btn bg-success px-3 text-decoration-none text-white" href="edit.php?id=<?php echo $row['stud_id'];?>">Update</a></td>
-                                    <td><a class="btn bg-danger px-3 text-decoration-none text-white" onclick="return confirm('Are you sure u want to delete?')" href="delete.php?id=<?php echo $row['stud_id'];?>">Delete</a></td>
+                                    <td><?php echo $row ['id'];?></td>
+                                    <td><?php echo $row ['category'];?></td>
+                                    <td><?php echo $row ['amount'];?></td>
+                                    <td><?php echo $row ['date'];?></td>
+                                  
+                                    <td><a class="btn bg-success px-3 text-decoration-none text-white" href="update.php?id=<?php echo $row['id'];?>">update</a></td>
+                                    <td><a class="btn bg-danger px-3 text-decoration-none text-white" onclick="return confirm('Are you sure u want to delete?')" href="erase.php?id=<?php echo $row['id'];?>">Delete</a></td>
+                                    
                                     
                                 </tr>
                                 <?php
@@ -317,27 +261,22 @@ if(strlen($_SESSION['sid']) == 0){
 
 
     <script src="script.js">
-        function searchUsers() {
-  var searchTerm = document.getElementById("searchInput").value.toLowerCase();
-  var tableBody = document.querySelector(".table tbody");
-  var rows = tableBody.querySelectorAll("tr");
+        document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("searchInput");
+    const tableRows = document.querySelectorAll(".table tbody tr");
 
-  for (var i = 0; i < rows.length; i++) {
-    var row = rows[i];
-    var nameCell = row.querySelector("td:nth-child(2)"); // Adjust selector based on your name column
-    var emailCell = row.querySelector("td:nth-child(3)"); // Adjust selector based on your email column
-    var textContent = nameCell.textContent.toLowerCase() + emailCell.textContent.toLowerCase();
-    if (textContent.indexOf(searchTerm) !== -1) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
-  }
-}
+    searchInput.addEventListener("input", function() {
+        const searchText = this.value.toLowerCase();
+        tableRows.forEach(row => {
+            const rowData = row.textContent.toLowerCase();
+            if (rowData.includes(searchText)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+});
     </script>
 </body>
 </html>
-
-<?php
-        
-?>
