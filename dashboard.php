@@ -90,7 +90,7 @@
                   </a>
                 <ul class="sidebardropdown list-unstyled collapse" data-bs-parent="#sidebar" id="auth">
                     <li class="sidebar-items">
-                    <a href="backup.php" class="sidebar-link">Recover data</a>
+                    <a href="backup.php" class="sidebar-link"></a>
                     </li>
                 </ul>
             </li>
@@ -409,23 +409,7 @@
 
 
     <script src="script.js">
-        function searchUsers() {
-  var searchTerm = document.getElementById("searchInput").value.toLowerCase();
-  var tableBody = document.querySelector(".table tbody");
-  var rows = tableBody.querySelectorAll("tr");
 
-  for (var i = 0; i < rows.length; i++) {
-    var row = rows[i];
-    var nameCell = row.querySelector("td:nth-child(2)"); // Adjust selector based on your name column
-    var emailCell = row.querySelector("td:nth-child(3)"); // Adjust selector based on your email column
-    var textContent = nameCell.textContent.toLowerCase() + emailCell.textContent.toLowerCase();
-    if (textContent.indexOf(searchTerm) !== -1) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
-  }
-}
     </script>
 </body>
 </html>
