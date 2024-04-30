@@ -14,6 +14,13 @@ include("connect.php");
     <script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<style>
+    .sidebar-nav .sidebar-link {
+    text-decoration: none; 
+    
+}
+
+</style>
 </head>
 <body>
     <div class="wrapper">
@@ -90,21 +97,7 @@ include("connect.php");
                         <a href="#" class="nav-icon pe-md-0" data-bs-toggle="dropdown">
                             <img src="images.png" class="avatar img-fluid" alt="user">
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end rounded">
-                            <a href="#" class="dropdown-item">
-                            <i class="fas fa-clock"></i>
-                                <span>Analytics</span>
-                            </a>
-                            <a href="#" class="dropdown-item">
-                            <i class="fas fa-cog"></i>
-                                <span>Setting</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                            <i class="fas fa-question-circle"></i>
-                                <span>Analytics</span>
-                            </a>
-                        </div>
+                        
                     </li>
                 </ul>
                </div>
@@ -137,25 +130,41 @@ include("connect.php");
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="card border-0">
-                        <div class="card-body py-4">
-                            <h5 class="mb-2 fw-bold">
-                                Amount spent
-                            </h5>
-                            <p class="mb-2 fw-bold">
-                                $72,50
-                            </p>
-                        </div>
-                        <div class="mb-0">
-                            <span class="badge text-success me-2">
-                                +9.05%
-                            </span>
-                            <span class="fw-bold">
-                                since last month
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-12 col-md-4">
+    <div class="card border-0">
+        <div class="card-body py-4">
+            <h5 class="mb-2 fw-bold">
+                Amount spent
+            </h5>
+            <?php
+            $sql = 'SELECT * FROM spend';
+
+            $sql = 'SELECT SUM(amount) AS total_spent FROM spend';
+            $data = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($data);
+            $totalSpent = $row['total_spent'];
+
+            
+            $Salary = 400000;
+            $remainingSalary = $Salary - $totalSpent;
+            ?>
+            <p class="mb-2 fw-bold">
+                <?php echo '$' . number_format($remainingSalary, 2); ?>
+            </p>
+        </div>
+        <div class="mb-0">
+            <span class="badge text-success me-2">
+                +9.05%
+            </span>
+            <span class="fw-bold">
+                since last month
+            </span>
+        </div>
+    </div>
+</div>
+
+</div>
+
                 <div class="col-12 col-md-4">
                     <div class="card border-0">
                         <div class="card-body py-4">
@@ -177,51 +186,55 @@ include("connect.php");
                     </div>
                 </div>
             </div>
-            <h3 class="fw-bold fs-4 my-3">Avg. Agent Earnings</h3>
+            <h3 class="fw-bold fs-4 my-3">Money Spent</h3>
             <div class="row">
                 <div class="col-12">
                 <?php
                         include 'connect.php ';
                         ?>
-                        <table class="table table striped" cellpadding="10px" cellspacing="0">
-                        <tr>
-                        <th>ID</th>
-                        <th>Category</th>
-                        <th>AMount</th>
-                        <th>Date</th>
-                        <th>Action</th>
-
-                        </tr>
-                        <?php
-                        $sql='SELECT * FROM spend';
-                        $data=mysqli_query($conn, $sql);
-                        $result=mysqli_num_rows($data);
-                        if($result>0){
-                            while($row=mysqli_fetch_array($data)){
-                                ?>
+                     <table class="table table-striped table-bordered">
+                            <thead class="table-dark">
                                 <tr>
-                                    <td><?php echo $row ['id'];?></td>
-                                    <td><?php echo $row ['category'];?></td>
-                                    <td><?php echo $row ['amount'];?></td>
-                                    <td><?php echo $row ['date'];?></td>
-                                  
-                                    <td><a class="btn bg-success px-3 text-decoration-none text-white" href="update.php?id=<?php echo $row['id'];?>">update</a></td>
-                                    <td><a class="btn bg-danger px-3 text-decoration-none text-white" onclick="return confirm('Are you sure u want to delete?')" href="erase.php?id=<?php echo $row['id'];?>">Delete</a></td>
-                                    
-                                    
+                                    <th>ID</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
                                 </tr>
+                            </thead>
+                            <tbody>
                                 <?php
-                            } 
-                                }
-                                else {
+                                $sql = 'SELECT * FROM spend';
+                                $data = mysqli_query($conn, $sql);
+                                $result = mysqli_num_rows($data);
+                                if ($result > 0) {
+                                    while ($row = mysqli_fetch_array($data)) {
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['category']; ?></td>
+                                            <td><?php echo $row['amount']; ?></td> <!-- Assuming 'amount' is a currency -->
+                                            <td><?php echo date('F j, Y', strtotime($row['date'])); ?></td> <!-- Formatting date -->
+                                            <td>
+                                                <a class="btn btn-secondary btn-sm" href="display.php?id=<?php echo $row['id']; ?>">View</a>
+                                                <a class="btn btn-success btn-sm" href="update.php?id=<?php echo $row['id']; ?>">Update</a>
+                                                <a class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')" href="erase.php?id=<?php echo $row['id']; ?>">Delete</a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                } else {
                                     ?>
-                                echo 'no record found';
+                                    <tr>
+                                        <td colspan="5" class="text-center">No records found</td>
+                                    </tr>
                                 <?php
-                            }
-
-
-                        ?>
+                                }
+                                ?>
+                            </tbody>
                         </table>
+
+
                 </div>
             </div>
         </div>
